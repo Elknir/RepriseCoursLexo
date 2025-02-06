@@ -1,55 +1,39 @@
+<script setup lang="ts">
+// composant parent qui garde en memoire l'etat actuel
+// bouton pour switch avec la page viewer/admin
+
+// page admin
+// 1 component pour add une data
+// page viewer
+
+
+import FormAdmin from '@/components/FormAdmin.vue';
+import FormUser from '@/components/FormUser.vue'
+import { ref, type Component as C } from 'vue'
+
+
+
+const selectedPage = ref<string>("FormAdmin");
+// Selection des pages ici
+const pages : {[s: string]: C} = {
+  FormAdmin,
+  FormUser
+}
+
+
+
+</script>
+
 <template>
   <main>
-    <ul>
-<!--      faire une v-for de "todoElement"-->
-      <li v-for="value in ToDoValues" :key="value.id">
-<!--        afficher le nom de la tache-->
-            <TodoElement :ToDo="value" @delete-todo="deleteToDoElement" @modify-todo="modifyToDoElement"></TodoElement>
+    <!-- seuls le bouton doit persister entre les pages-->
+    <!--Puis change de page-->
+    <button @click="selectedPage ='FormUser'">User</button>
+    <button @click="selectedPage ='FormAdmin'">Admin</button>
 
-        <!--        mettre un bouton onclick Modifiy (console.log)-->
-
-<!--        mettre un bouton onclick Delete (console.log)-->
-
-      </li>
-    </ul>
+<!--    chaque compornent doit avoir sa propre logique-->
+    <Component :is="pages[selectedPage]"></Component>
   </main>
 </template>
 
-
-<script setup lang="ts">
-
-
-import { reactive } from 'vue'
-import type { ToDoInterface } from '@/shared/interface'
-import TodoElement from '@/components/TodoElement.vue'
-
-//reactive pour definir des values mais en tableau
-//<{interface}>(valeurs)
-
-//definir les variables
-const ToDoValues = reactive<ToDoInterface[]>(
-  [
-    {id: 0, taskName: "Todo 1"},
-    {id: 1,taskName: "Todo 2"},
-    {id: 2,taskName: "Todo 3"},
-  ]
-)
-
-function deleteToDoElement(id: number){
-  const indexDeleteToDo = ToDoValues.findIndex((Todo) => {
-     return (Todo.id === id);
-  })
-
-  ToDoValues.splice(indexDeleteToDo, 1);
-}
-
-function modifyToDoElement(id: number){
-
-  /*const indexDeleteToDo = ToDoValues.findIndex((Todo) => {
-    return (Todo.id === id);
-  })*/
-
-
-}
-
-</script>
+<style scoped></style>

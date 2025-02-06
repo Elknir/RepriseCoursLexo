@@ -1,4 +1,4 @@
 export interface ToDoInterface {
-  id: number,
-  taskName: string,
+  id: number
+  taskName: string
 }
